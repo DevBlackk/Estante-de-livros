@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../src/css/main.css">
+    <link rel="stylesheet" href="../src/css/button.css">
+    <link rel="stylesheet" href="../src/css/records.css">
+    <link rel="stylesheet" href="../src/css/modal.css">
+    <script src="index.js" defer></script>
+    <title>Estante de Livros</title>
+</head>
+<body>
+    <header>
+        <img src="../src/icon/Logo-Imagination.png" alt="Logo-Imagiation">
+    </header>
+    <main>
+        <input type="button" value="Adiciona Livro" class="button brown mobile" id="adicionarLivro">
+        <table class="records">
+            <tr>
+                <thead>
+                    <tr>
+                        <th>Titulo</th>
+                        <th>Autor</th>
+                        <th>Editor</th>
+                        <th>Número de Páginas</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Paulo</td>
+                        <td>Paulo</td>
+                        <td>Paulo</td>
+                        <td>Paulo</td>
+                        <td>
+                            <input type="button" value="Editar" class="button green">
+                            <input type="button" value="Excluir" class="button red">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Paulo</td>
+                        <td>Paulo</td>
+                        <td>Paulo</td>
+                        <td>Paulo</td>
+                        <td>
+                            <input type="button" value="Editar" class="button green" id="edit">
+                            <input type="button" value="Excluir" class="button red" id="delete">
+                        </td>
+                    </tr>
+                        <td>Paulo</td>
+                        <td>Paulo</td>
+                        <td>Paulo</td>
+                        <td>Paulo</td>
+                        <td>
+                            <input type="button" value="Editar" class="button green">
+                            <input type="button" value="Excluir" class="button red">
+                        </td>
+                    </tr>
+                </tbody>
+            </tr>
+        </table>
+        <div class="modal" id="modal">
+            <div class="modal-content">
+                <header class="modal-header">
+                    <h2>Novo Livro</h2>
+                    <span class="modal-close" id="modalClose">&#10006</span>
+                </header>
+                <form class="modal-form">
+                    <input type="text" class="modal-field" placeholder="Titulo do Livro">
+                    <input type="text" class="modal-field" placeholder="Autor">
+                    <input type="text" class="modal-field" placeholder="Editor">
+                    <input type="text" class="modal-field" placeholder="Número de Páginas">
+                </form>
+                <footer class="modal-footer">
+                    <input type="button" class="button green" value="Salvar">
+                    <input type="button" class="button red" value="Cancelar">
+                </footer>
+            </div>
+        </div>
+    </main>
+    <footer>
+        Copyright &copy; Davidson William, vulgo: <a href="https://www.linkedin.com/in/davidson-william-ferreira">Blackk</a>
+    </footer>
+</body>
+</html>

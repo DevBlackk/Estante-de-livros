@@ -1,0 +1,42 @@
+.records {
+    width: 100%;
+    user-select: none;
+    text-align: left;
+}
+
+.records th {
+    height: 50px;
+    background-color: var(--primare-color);
+    padding-left: 10px;
+    font-size: 1.2rem;
+}
+
+.records td {
+    height: 50px;
+    padding-left: 20px;
+}
+
+.records th:last-child,
+.records td:last-child {
+    padding: 0;
+    min-width: 50px;
+    text-align: center;
+}
+
+.records th:first-child,
+.records tr:first-child {
+    min-width: 25%;
+}
+
+.records tr:hover {
+    background-color: var(--fourth-color);
+}
+
+/* @media (max-width: 480px) {
+    .records th:last-child,
+    .records tr:last-child {
+        width: 100px
+    }
+} */
+
+

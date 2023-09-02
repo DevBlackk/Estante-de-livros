@@ -40,9 +40,9 @@
     }
 
     .button.mobile::before {
-        content: "add";
+        content: "+";
         color: black;
-        font-size: 4rem;
+        font-size: 1.5rem;
         width: 100%;
         height: 100%;
     }

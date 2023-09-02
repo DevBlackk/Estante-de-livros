@@ -1,149 +1,180 @@
-//Modal
-const openModal = () => document.getElementById('modal')
-    .classList.add('active');
+// Modal
+const openModal = () => document.getElementById('modal').classList.add('active');
 
-const closeModal = () => {
-    clearField()
-    document.getElementById('modal').classList.remove('active')
-}
-
-// document.gatElementById('cadastrarCliente')
-//      .addEventListener('click', openModal)
-// document.gatElementById('modalClose')
-//      .addEventListener('click', closeModal)
+const closeModal = () => document.getElementById('modal').classList.remove('active');
 
 // CRUD
-const getLocalStorage = () => JSON.parse(localStorage.getItem('db_client')) ?? []
+const getLocalStorage = () => JSON.parse(localStorage.getItem('db_client')) || [];
 
-const setLocalStorage = (dbClient) => localStorage.setItem("db_client", JSON.stringify(dbClient))
+const setLocalStorage = (dbClient) => localStorage.setItem("db_client", JSON.stringify(dbClient));
 
-//CRUD - Delete
+// CRUD - Delete
 const deleteClient = (index) => {
-    const dbClient = readClient()
-    dbClient.splice(index, 1)
-    setLocalStorage(dbClient)
-}
+    const dbClient = readClient();
+    dbClient.splice(index, 1);
+    setLocalStorage(dbClient);
+};
 
-//CRUD - Update
+// CRUD - Update
 const updateClient = (index, client) => {
-    const dbClinet = readClient()
-    dbClinet[index] = client
-    setLocalStorage(dbClinet)
-}
+    const dbClient = readClient();
+    dbClient[index] = client;
+    setLocalStorage(dbClient);
+};
 
 // CRUD - Read
-const readClient = () => getLocalStorage()
+const readClient = () => getLocalStorage();
 
-//CRUD - Creat
+// CRUD - Create
 const createClient = (client) => {
-    const dbClient = getLocalStorage()
-    dbClient.push (client)
-    setLocalStorage(dbClient)
-} 
+    const dbClient = getLocalStorage();
+    dbClient.push(client);
+    setLocalStorage(dbClient);
+};
 
-const isVilidFields = () => {
-    document.getElementById('form').reportValidity()
-}
+const isValidFields = () => {
+    const titulo = document.getElementById('titulo').value;
+    const autor = document.getElementById('autor').value;
+    const editor = document.getElementById('editor').value;
+    const numeroPaginas = document.getElementById('numeroPaginas').value;
+
+    // Verifica se todos os campos estão preenchidos
+    if (titulo.trim() === '' || autor.trim() === '' || editor.trim() === '' || numeroPaginas.trim() === '') {
+        alert('Por favor, preencha todos os campos.');
+        return false;
+    }
+
+    return true;
+};
 
 // INTERAÇÕES
-const clearField = () => {
-    const fields = document.querySelectorAll('.modal-field');
-    fields.forEach(field => fields.value = "")
-}
+const clearInputFields = () => {
+    document.getElementById('titulo').value = '';
+    document.getElementById('autor').value = '';
+    document.getElementById('editor').value = '';
+    document.getElementById('numeroPaginas').value = '';
+    document.getElementById('form').dataset.id = '0';
+};
 
 const saveClient = () => {
-    if (isVilidFields()){
+    if (isValidFields()) {
         const client = {
             titulo: document.getElementById('titulo').value,
             autor: document.getElementById('autor').value,
             editor: document.getElementById('editor').value,
             numeroPaginas: document.getElementById('numeroPaginas').value,
+        };
+
+        const index = document.getElementById('form').dataset.id;
+        if (index === '0') {
+            createClient(client);
+        } else {
+            updateClient(index, client);
         }
 
-        const index = document.getElementById('tilulo').dataset.index
-        if (index == 'new'){
-        createClient(client)
-        updateTable()
-        closeModal()
-        }else {
-            updateClient(index, client)
-            updateTable()
-            closeModal()
-        }
-        
-
+        updateTable();
+        closeModal();
     }
-}
+};
 
 const clearTable = () => {
-    const rows = document.querySelectorAll('#tableClient>tbody')
-    rows.forEach(row => row.parentNode.removeChild(row))
-}
+    const rows = document.querySelectorAll('#tableClient>tbody>tr');
+    rows.forEach((row) => row.remove());
+};
 
-const creatRow = (client) => {
-    const newRow = document.createElement('tr')
+const createRow = (client, index) => {
+    const newRow = document.createElement('tr');
     newRow.innerHTML = `
-        <td><img src="${livro.foto}"/></td>
         <td>${client.titulo}</td>
         <td>${client.autor}</td>
         <td>${client.editor}</td>
         <td>${client.numeroPaginas}</td>
         <td>
-            <input type="button" class="button-green" id="edit-${index}" value="Editar">
-            <input type="button" class="button-red" id="delete-${index}" value="Apagar">
+            <input type="button" class="button green" id="edit-${index}" value="Editar">
+            <input type="button" class="button red" id="delete-${index}" value="Apagar">
         </td>
-    `
+    `;
 
-    document.querySelector('#tableClient>tbody').appendChild(newRow)
-}
+    document.querySelector('#tableClient>tbody').appendChild(newRow);
+
+    const editButton = document.getElementById(`edit-${index}`);
+    const deleteButton = document.getElementById(`delete-${index}`);
+
+    editButton.addEventListener('click', () => {
+        editClient(index);
+    });
+
+    deleteButton.addEventListener('click', () => {
+        const response = confirm(`Deseja realmente tirar o livro ${client.titulo} da estante?`);
+        if (response) {
+            deleteClient(index);
+            updateTable();
+        }
+    });
+};
 
 const updateTable = () => {
-    const dbClient = readClient()
-    clearTable()
-    dbClient.forEach(creatRow)
-}
+    const dbClient = readClient();
+    clearTable();
+    dbClient.forEach((client, index) => createRow(client, index));
+};
 
 const fillFields = (client) => {
-    document.getElementById('titulo').value = client.titulo
-    document.getElementById('autor').value = client.autor
-    document.getElementById('tradutor').value = client.tradutor
-    document.getElementById('numeroEdicao').value = client.numeroEdicao
-    document.getElementById('editor').value = client.editor
-    document.getElementById('local').value = client.local
-    document.getElementById('dataPublicacao').value = client.dataPublicacao
-    document.getElementById('numeroPagina').value = client.numeroPaginas
-    document.getElementById('titulo').dataset.index = client.index
-}
+    document.getElementById('titulo').value = client.titulo;
+    document.getElementById('autor').value = client.autor;
+    document.getElementById('editor').value = client.editor;
+    document.getElementById('numeroPaginas').value = client.numeroPaginas;
+    document.getElementById('form').dataset.id = client.index;
+};
 
-const editClient = () => {
-    const client = readClient()[index]
-    client.index = index
-    fillFields(client)
-    openModal()
-}
+const editClient = (index) => {
+    const dbClient = readClient();
+    const client = dbClient[index];
 
-const editDelete = (event) => {
-    if (event.target.type == 'button') {
-        const [action, index] = event.target.id.split('-')
+    // Preenche os campos do formulário com as informações do cliente
+    document.getElementById('titulo').value = client.titulo;
+    document.getElementById('autor').value = client.autor;
+    document.getElementById('editor').value = client.editor;
+    document.getElementById('numeroPaginas').value = client.numeroPaginas;
+    document.getElementById('form').dataset.id = index; // Define o índice para saber qual cliente está sendo editado
 
-        if (action == 'edit') {
-            editClient(index)
-        }else {
-            const client = readClient()[index]
-            const response = confirm(`Desaja realmente tirar o livro ${client.titulo} da estante?`)
-            if (response){
-                deleteClient(index)
-                updateTable()    
-            }
-        }
-    }
-}
+    openModal(); // Abre o modal para edição
 
-updateTable()
+    // Adiciona um evento de clique no botão "Salvar" dentro do modal
+    document.getElementById('salvar').addEventListener('click', () => {
+        // Obtém os valores dos campos de entrada
+        const editedClient = {
+            titulo: document.getElementById('titulo').value,
+            autor: document.getElementById('autor').value,
+            editor: document.getElementById('editor').value,
+            numeroPaginas: document.getElementById('numeroPaginas').value
+        };
 
-document.getElementById('#')
-    .addEventListener('click', saveClient)
+        // Obtém o índice do cliente sendo editado do atributo 'data-id' do formulário
+        const editedIndex = document.getElementById('form').dataset.id;
 
-document.querySelector('#tableClient>tbody')
-    .addEventListener('click', editClient)
+        // Atualiza o cliente no banco de dados
+        updateClient(editedIndex, editedClient);
+
+        // Atualiza a tabela e fecha o modal
+        updateTable();
+        closeModal();
+    });
+};
+
+// Eventos
+document.getElementById('salvar').addEventListener('click', saveClient);
+
+// document.getElementById('addBook').addEventListener('click', openModal);
+
+document.getElementById('addBook').addEventListener('click', () => {
+    clearInputFields(); // Limpa os campos de entrada
+    openModal(); // Abre o modal
+});
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+
+document.getElementById('cancelar').addEventListener('click', closeModal);
+
+updateTable();
 

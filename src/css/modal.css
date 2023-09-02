@@ -95,7 +95,7 @@
     }
     .modal-content {
         margin: 0;
-        width: 90vw;
+        width: 100%;
         position: fixed;
     }
 

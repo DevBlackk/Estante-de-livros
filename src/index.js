@@ -40,7 +40,6 @@ const isValidFields = () => {
     const editor = document.getElementById('editor').value;
     const numeroPaginas = document.getElementById('numeroPaginas').value;
 
-    // Verifica se todos os campos estão preenchidos
     if (titulo.trim() === '' || autor.trim() === '' || editor.trim() === '' || numeroPaginas.trim() === '') {
         alert('Por favor, preencha todos os campos.');
         return false;
@@ -133,18 +132,15 @@ const editClient = (index) => {
     const dbClient = readClient();
     const client = dbClient[index];
 
-    // Preenche os campos do formulário com as informações do cliente
     document.getElementById('titulo').value = client.titulo;
     document.getElementById('autor').value = client.autor;
     document.getElementById('editor').value = client.editor;
     document.getElementById('numeroPaginas').value = client.numeroPaginas;
-    document.getElementById('form').dataset.id = index; // Define o índice para saber qual cliente está sendo editado
+    document.getElementById('form').dataset.id = index; 
 
-    openModal(); // Abre o modal para edição
+    openModal(); 
 
-    // Adiciona um evento de clique no botão "Salvar" dentro do modal
     document.getElementById('salvar').addEventListener('click', () => {
-        // Obtém os valores dos campos de entrada
         const editedClient = {
             titulo: document.getElementById('titulo').value,
             autor: document.getElementById('autor').value,
@@ -152,13 +148,10 @@ const editClient = (index) => {
             numeroPaginas: document.getElementById('numeroPaginas').value
         };
 
-        // Obtém o índice do cliente sendo editado do atributo 'data-id' do formulário
         const editedIndex = document.getElementById('form').dataset.id;
 
-        // Atualiza o cliente no banco de dados
         updateClient(editedIndex, editedClient);
 
-        // Atualiza a tabela e fecha o modal
         updateTable();
         closeModal();
     });
@@ -167,11 +160,10 @@ const editClient = (index) => {
 // Eventos
 document.getElementById('salvar').addEventListener('click', saveClient);
 
-// document.getElementById('addBook').addEventListener('click', openModal);
 
 document.getElementById('addBook').addEventListener('click', () => {
-    clearInputFields(); // Limpa os campos de entrada
-    openModal(); // Abre o modal
+    clearInputFields(); 
+    openModal(); 
 });
 
 document.getElementById('modalClose').addEventListener('click', closeModal);

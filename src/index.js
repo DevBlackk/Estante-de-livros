@@ -32,6 +32,8 @@ const createClient = (client) => {
     setLocalStorage(dbClient);
 };
 
+
+
 const isValidFields = () => {
     const titulo = document.getElementById('titulo').value;
     const autor = document.getElementById('autor').value;

@@ -8,6 +8,12 @@ const getLocalStorage = () => JSON.parse(localStorage.getItem('db_client')) || [
 
 const setLocalStorage = (dbClient) => localStorage.setItem("db_client", JSON.stringify(dbClient));
 
+const numeroPaginasInput = document.getElementById('numeroPaginas');
+
+numeroPaginasInput.addEventListener('input', function () {
+    this.value = this.value.replace(/[^0-9]/g, ''); 
+});
+
 // CRUD - Delete
 const deleteClient = (index) => {
     const dbClient = readClient();
@@ -38,7 +44,6 @@ const isValidFields = () => {
     const editor = document.getElementById('editor').value;
     const numeroPaginas = document.getElementById('numeroPaginas').value;
 
-    // Verifica se todos os campos estão preenchidos
     if (titulo.trim() === '' || autor.trim() === '' || editor.trim() === '' || numeroPaginas.trim() === '') {
         alert('Por favor, preencha todos os campos.');
         return false;
@@ -127,54 +132,43 @@ const fillFields = (client) => {
     document.getElementById('form').dataset.id = client.index;
 };
 
+
 const editClient = (index) => {
     const dbClient = readClient();
-    
-    // Verifica se o índice é válido
-    if (index >= 0 && index < dbClient.length) {
-        const client = dbClient[index];
+    const client = dbClient[index];
 
-        // Preenche os campos do formulário com as informações do cliente
-        document.getElementById('titulo').value = client.titulo;
-        document.getElementById('autor').value = client.autor;
-        document.getElementById('editor').value = client.editor;
-        document.getElementById('numeroPaginas').value = client.numeroPaginas;
+    document.getElementById('titulo').value = client.titulo;
+    document.getElementById('autor').value = client.autor;
+    document.getElementById('editor').value = client.editor;
+    document.getElementById('numeroPaginas').value = client.numeroPaginas;
 
-        // Define o índice corretamente para saber qual cliente está sendo editado
-        document.getElementById('form').dataset.id = index;
+    openModal(); 
 
-        openModal(); // Abre o modal para edição
+    const saveButton = document.getElementById('salvar');
+    const newSaveButton = saveButton.cloneNode(true);
+    saveButton.parentNode.replaceChild(newSaveButton, saveButton);
 
-        // Adiciona um evento de clique no botão "Salvar" dentro do modal
-        document.getElementById('salvar').addEventListener('click', () => {
-            // Obtém os valores dos campos de entrada
-            const editedClient = {
-                titulo: document.getElementById('titulo').value,
-                autor: document.getElementById('autor').value,
-                editor: document.getElementById('editor').value,
-                numeroPaginas: document.getElementById('numeroPaginas').value
-            };
+    newSaveButton.addEventListener('click', () => {
+        const editedClient = {
+            titulo: document.getElementById('titulo').value,
+            autor: document.getElementById('autor').value,
+            editor: document.getElementById('editor').value,
+            numeroPaginas: document.getElementById('numeroPaginas').value
+        };
 
-            // Atualiza o cliente no banco de dados usando o índice correto
-            updateClient(index, editedClient);
+        updateClient(index, editedClient);
 
-            // Atualiza a tabela e fecha o modal
-            updateTable();
-            closeModal();
-        });
-    } else {
-        alert('Índice de cliente inválido.');
-    }
+        updateTable();
+        closeModal();
+    });
 };
 
-// Eventos
 document.getElementById('salvar').addEventListener('click', saveClient);
 
-// document.getElementById('addBook').addEventListener('click', openModal);
 
 document.getElementById('addBook').addEventListener('click', () => {
-    clearInputFields(); // Limpa os campos de entrada
-    openModal(); // Abre o modal
+    clearInputFields();
+    openModal();
 });
 
 document.getElementById('modalClose').addEventListener('click', closeModal);

@@ -14,41 +14,43 @@
     <header>
         <img src="./src/icon/Logo-Imagination.png" alt="Logo-Imagiation">
     </header>
-    <main>
-        <button type="button" class="button brown mobile" id="addBook">Adicionar Livro</button>
-        <table id="tableClient" class="records">
-                <thead>
-                    <tr>
-                        <th>Titulo</th>
-                        <th>Autor</th>
-                        <th>Editor</th>
-                        <th>Número de Páginas</th>
-                        <th>Ação</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                    
-                </tbody>
-        </table>
-        <div class="modal" id="modal">
-            <div class="modal-content">
-                <header class="modal-header">
-                    <h2 id="customAlertTitle">Novo Livro</h2>
-                    <span class="modal-close" id="modalClose">&#10006</span>
-                </header>
-                <form id="form" class="modal-form" data-id="0">
-                    <input type="text" id="titulo" class="modal-field" placeholder="Titulo do Livro" required>
-                    <input type="text" id="autor" class="modal-field" placeholder="Autor" required>
-                    <input type="text" id="editor" class="modal-field" placeholder="Editor" required>
-                    <input type="text" id="numeroPaginas" class="modal-field" placeholder="Número de Páginas" required>
-                </form>
-                <footer class="modal-footer">
-                    <button type="button" class="button green" id="salvar">Salvar</button>
-                    <button type="button" class="button red" id="cancelar">Cancelar</button>
-                </footer>
-            </div>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <header class="modal-header">
+                <span id="modalClose" class="close">&times;</span>
+                <h2>Cadastrar Livro</h2>
+            </header>
+            <form id="form" class="modal-form">
+                <input type="text" id="titulo" class="modal-field" placeholder="Título">
+                <input type="text" id="autor" class="modal-field" placeholder="Autor">
+                <input type="text" id="editor" class="modal-field" placeholder="Editora">
+                <input type="text" id="numeroPaginas" class="modal-field" placeholder="Número de Páginas">
+            </form>
+            <footer class="modal-footer">
+                <button type="button" class="button green" id="salvar">Salvar</button>
+                <button type="button" class="button red" id="cancelar">Cancelar</button>
+            </footer>
         </div>
+    </div>
+
+    <main>
+        <h1>Minha Biblioteca</h1>
+        <button class="button brown mobile" id="addBook">Adicionar Livro</button>
+        <table class="records" id="tableClient">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>Editora</th>
+                    <th>Número de Páginas</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </main>
+
     <footer>
         Copyright &copy; Davidson William, vulgo: <a href="https://www.linkedin.com/in/davidson-william-ferreira">Blackk</a>
     </footer>
